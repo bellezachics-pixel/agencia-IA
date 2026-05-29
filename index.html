@@ -16,12 +16,59 @@ html, body {
   scroll-behavior: smooth;
 }
 
+/* PARTICLES CANVAS */
+#particles-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
 /* GRADIENT TEXT */
 .hero-heading {
-  background: linear-gradient(180deg, #646973 0%, #BBCCD7 100%);
+  background: linear-gradient(180deg, #4a5568 0%, #CBD5E0 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* NEON ACCENT */
+:root {
+  --neon: #00f5ff;
+  --neon-glow: 0 0 20px rgba(0,245,255,0.4), 0 0 60px rgba(0,245,255,0.15);
+}
+
+/* Neon borders y acentos */
+nav a:hover { 
+  color: #00f5ff !important; 
+  text-shadow: 0 0 10px rgba(0,245,255,0.5);
+}
+
+.contact-btn {
+  box-shadow: 0 0 20px rgba(181,1,167,0.3), 0 0 40px rgba(0,245,255,0.1) !important;
+}
+
+.project-card {
+  border-color: rgba(0,245,255,0.2) !important;
+}
+.project-card:hover {
+  border-color: rgba(0,245,255,0.4) !important;
+  box-shadow: 0 0 40px rgba(0,245,255,0.08) !important;
+}
+
+.service-num { color: #00f5ff !important; }
+
+footer {
+  border-top: 1px solid rgba(0,245,255,0.1) !important;
+}
+
+.live-btn {
+  border-color: rgba(0,245,255,0.3) !important;
+  color: #00f5ff !important;
+}
+.live-btn:hover {
+  background: rgba(0,245,255,0.06) !important;
+  border-color: #00f5ff !important;
 }
 
 /* ── HERO ── */
@@ -64,7 +111,7 @@ nav a:hover { opacity: 0.7; }
 }
 
 .hero-h1 {
-  font-size: clamp(14vw, 17.5vw, 17.5vw);
+  font-size: clamp(7vw, 9vw, 9vw);
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: -0.02em;
@@ -263,7 +310,7 @@ nav a:hover { opacity: 0.7; }
   transform: translateY(30px);
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
-.service-item:first-child { border-top: 1px solid rgba(12,12,12,0.15); }
+.service-item:first-child { border-top: 1px solid rgba(0,245,255,0.1); }
 .service-item.visible { opacity: 1; transform: translateY(0); }
 
 .service-num {
@@ -451,6 +498,7 @@ footer {
 </style>
 </head>
 <body>
+<canvas id="particles-canvas"></canvas>
 
 <!-- ── HERO ── -->
 <section id="hero">
@@ -472,7 +520,7 @@ footer {
 
   <!-- Portrait con efecto magnético -->
   <div class="hero-portrait magnet-wrap" id="magnetPortrait">
-    <img src="https://d276s3zg8h21b2.cloudfront.net/user_3EF2JjdxBRcuGWqxxByh8ikLqsu/1417742a-cc2d-4689-84aa-edc232ee64e2.png"
+    <img src="https://shrug-person-78902957.figma.site/_components/v2/d24c01ad3a56fc65e942a1f501eb73db42d7cf9a/Rectangle_40443.81459862.png"
          alt="NEO JARVIS" />
   </div>
 </section>
@@ -766,8 +814,8 @@ footer {
 </section>
 
 <!-- CONTACT -->
-  <h2 class="hero-heading" style="font-size:clamp(2rem,8vw,100px);font-weight:900;text-transform:uppercase;line-height:1;margin-bottom:24px;">¿Listo para NEO?</h2>
-  <p style="color:rgba(215,226,234,0.5);font-size:clamp(1rem,2vw,1.4rem);font-weight:300;margin-bottom:48px;max-width:500px;margin-left:auto;margin-right:auto;">Únete a miles de personas con su asistente personal de IA.</p>
+  <h2 class="hero-heading" style="font-size:clamp(2rem,8vw,100px);font-weight:900;text-transform:uppercase;line-height:1;margin-bottom:24px;text-align:center;">¿Listo para NEO?</h2>
+  <p style="color:rgba(215,226,234,0.5);font-size:clamp(1rem,2vw,1.4rem);font-weight:300;margin-bottom:48px;max-width:500px;margin-left:auto;margin-right:auto;text-align:center;">Únete a miles de personas con su asistente personal de IA.</p>
   <a href="mailto:hola@neojarvis.ai" class="contact-btn" style="font-size:1rem;padding:16px 48px;opacity:1;animation:none;">Contáctanos</a>
 </section>
 
@@ -775,7 +823,69 @@ footer {
   © 2026 NEO JARVIS · Cancún, México · Tu Asistente Personal con IA
 </footer>
 
+<canvas id="particles-canvas"></canvas>
+
 <script>
+// ── PARTÍCULAS ──
+const canvas = document.getElementById('particles-canvas');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+const particles = [];
+const colors = ['rgba(0,212,255,', 'rgba(255,255,255,', 'rgba(150,180,200,', 'rgba(100,150,200,'];
+
+for (let i = 0; i < 100; i++) {
+  particles.push({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    r: Math.random() * 2 + 0.3,
+    dx: (Math.random() - 0.5) * 0.4,
+    dy: (Math.random() - 0.5) * 0.4,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    o: Math.random() * 0.4 + 0.05
+  });
+}
+
+function drawParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  // Líneas de conexión
+  particles.forEach((p, i) => {
+    particles.slice(i + 1).forEach(p2 => {
+      const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+      if (dist < 120) {
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(0,212,255,${0.06 * (1 - dist/120)})`;
+        ctx.lineWidth = 0.5;
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.stroke();
+      }
+    });
+  });
+
+  // Partículas
+  particles.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `${p.color}${p.o})`;
+    ctx.fill();
+    p.x += p.dx;
+    p.y += p.dy;
+    if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+  });
+
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
 // ── MARQUEE SETUP ──
 const gifs1 = [
   'https://motionsites.ai/assets/hero-space-voyage-preview-eECLH3Yc.gif',
