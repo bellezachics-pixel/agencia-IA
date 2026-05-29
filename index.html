@@ -494,46 +494,77 @@ footer {
 }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
-/* Responsive */
 @media (max-width: 640px) {
   nav { 
-    padding: 16px 20px; 
-    gap: 10px;
+    padding: 14px 16px; 
+    gap: 6px;
   }
-  nav a { font-size: 11px; letter-spacing: 1px; }
-  
-  .hero-bottom { padding: 0 20px 20px; }
-  
+  nav a { font-size: 10px; letter-spacing: 1px; }
+
+  /* Hero en celular - Jack arriba, texto abajo */
+  #hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 70px;
+  }
+
+  .hero-h1-wrap {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
   .hero-portrait {
-    width: clamp(220px, 70vw, 340px) !important;
+    position: relative !important;
+    left: auto !important;
+    transform: none !important;
+    bottom: auto !important;
+    width: 60vw !important;
+    margin: 0 auto 16px;
+    display: block;
   }
 
-  .project-images { grid-template-columns: 1fr; }
+  .hero-bottom { display: none !important; }
+
+  /* Proyectos en celular */
+  .project-container { height: auto !important; margin-bottom: 20px; }
+  .project-card { position: relative !important; top: auto !important; border-radius: 24px !important; }
+  .project-images { grid-template-columns: 1fr !important; }
   .project-col-right { display: none; }
-  .about-tl, .about-bl, .about-tr, .about-br { width: 50px; }
+  .project-top { flex-wrap: wrap; gap: 8px; }
+  .project-num { font-size: clamp(2rem, 12vw, 4rem) !important; }
+  .project-name { font-size: clamp(0.9rem, 4vw, 1.2rem) !important; }
 
-  .project-top { flex-direction: column; align-items: flex-start; gap: 10px; }
-  .project-card { border-radius: 24px !important; }
+  /* Servicios */
+  .service-item { flex-direction: column; gap: 4px; }
+  .service-num { font-size: clamp(2rem, 12vw, 4rem) !important; width: auto !important; }
+  .service-name { font-size: clamp(0.9rem, 4vw, 1.2rem) !important; }
 
-  .service-item { flex-direction: column; gap: 8px; }
-  .service-num { font-size: clamp(2rem, 15vw, 5rem) !important; width: auto !important; }
+  /* Demo */
+  .demo-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
 
-  /* Demo chat en celular */
-  .demo-grid { grid-template-columns: 1fr !important; gap: 30px !important; }
-  
-  /* Pricing en celular */
-  .pricing-grid { grid-template-columns: 1fr !important; }
+  /* Planes - todos en columna */
+  .pricing-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+  .pc.hot { transform: none !important; }
 
-  /* About section */
-  .about-content { padding: 0 10px; }
+  /* About */
+  .about-content { padding: 0 16px; }
+  .about-tl, .about-bl, .about-tr, .about-br { width: 40px !important; }
 
-  /* Marquee tiles más pequeños */
-  .marquee-tile { width: 240px !important; height: 160px !important; }
+  /* Marquee */
+  .marquee-tile { width: 200px !important; height: 130px !important; }
+
+  /* Sections padding */
+  #about, #services, #projects, #servicios, #precios, #demo {
+    padding: 60px 20px !important;
+  }
 }
 
 @media (max-width: 900px) {
   .demo-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
   .pricing-grid { grid-template-columns: 1fr !important; }
+  .project-container { height: auto !important; margin-bottom: 20px; }
+  .project-card { position: relative !important; top: auto !important; }
 }
 </style>
 </head>
@@ -1008,44 +1039,44 @@ const magnet = document.getElementById('magnetPortrait');
 let magnetActive = false;
 let magnetReady = false;
 let rafId = null;
+const isMobile = window.innerWidth < 640;
 
-// Esperar que termine la animación de entrada
 setTimeout(() => {
   magnetReady = true;
-  // Quitar animation para que JS pueda controlar el transform
   magnet.style.animation = 'none';
   magnet.style.opacity = '1';
-  magnet.style.transform = 'translateX(-50%)';
+  if (!isMobile) magnet.style.transform = 'translateX(-50%)';
 }, 1400);
 
-window.addEventListener('mousemove', (e) => {
-  if (!magnet || !magnetReady) return;
-  if (rafId) cancelAnimationFrame(rafId);
-  rafId = requestAnimationFrame(() => {
-    const rect = magnet.getBoundingClientRect();
-    if (rect.top > window.innerHeight || rect.bottom < 0) return;
-
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    const dx = e.clientX - cx;
-    const dy = e.clientY - cy;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-    const maxDist = 600;
-
-    if (dist < maxDist) {
-      const factor = (1 - dist / maxDist) * 55;
-      const moveX = (dx / dist) * factor;
-      const moveY = (dy / dist) * factor;
-      magnet.style.transition = 'transform 0.15s ease-out';
-      magnet.style.transform = `translateX(calc(-50% + ${moveX}px)) translateY(${moveY}px)`;
-      magnetActive = true;
-    } else if (magnetActive) {
-      magnet.style.transition = 'transform 0.8s ease-in-out';
-      magnet.style.transform = 'translateX(-50%)';
-      magnetActive = false;
-    }
+// Solo efecto magnético en desktop
+if (!isMobile) {
+  window.addEventListener('mousemove', (e) => {
+    if (!magnet || !magnetReady) return;
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(() => {
+      const rect = magnet.getBoundingClientRect();
+      if (rect.top > window.innerHeight || rect.bottom < 0) return;
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = e.clientX - cx;
+      const dy = e.clientY - cy;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const maxDist = 600;
+      if (dist < maxDist) {
+        const factor = (1 - dist / maxDist) * 55;
+        const moveX = (dx / dist) * factor;
+        const moveY = (dy / dist) * factor;
+        magnet.style.transition = 'transform 0.15s ease-out';
+        magnet.style.transform = `translateX(calc(-50% + ${moveX}px)) translateY(${moveY}px)`;
+        magnetActive = true;
+      } else if (magnetActive) {
+        magnet.style.transition = 'transform 0.8s ease-in-out';
+        magnet.style.transform = 'translateX(-50%)';
+        magnetActive = false;
+      }
+    });
   });
-});
+}
 
 // ── TOUCH EFFECT para celular ──
 magnet.addEventListener('touchstart', (e) => {
