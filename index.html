@@ -3,759 +3,770 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AutomatizaIA — Automatiza Tu Negocio con IA</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Syne:wght@300;400;600&display=swap" rel="stylesheet">
+<title>NEO JARVIS — Tu Asistente Personal con IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --negro: #050508;
-    --morado: #7B2FBE;
-    --morado-claro: #A855F7;
-    --neon: #00F5FF;
-    --neon-suave: #00D4E8;
-    --blanco: #F0F0FF;
-    --gris: #9090B0;
-    --glow-morado: 0 0 30px rgba(168, 85, 247, 0.5);
-    --glow-neon: 0 0 30px rgba(0, 245, 255, 0.5);
-  }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  background: #0C0C0C;
+  font-family: 'Kanit', sans-serif;
+  color: #D7E2EA;
+  overflow-x: clip;
+  scroll-behavior: smooth;
+}
 
-  body {
-    background: var(--negro);
-    color: var(--blanco);
-    font-family: 'Syne', sans-serif;
-    overflow-x: hidden;
-    cursor: none;
-  }
+/* GRADIENT TEXT */
+.hero-heading {
+  background: linear-gradient(180deg, #646973 0%, #BBCCD7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
-  /* CURSOR */
-  .cursor {
-    width: 12px; height: 12px;
-    background: var(--neon);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    transition: transform 0.1s;
-    box-shadow: var(--glow-neon);
-  }
-  .cursor-ring {
-    width: 36px; height: 36px;
-    border: 1px solid rgba(0,245,255,0.4);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9998;
-    transition: all 0.15s ease;
-  }
+/* ── HERO ── */
+#hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: clip;
+  position: relative;
+}
 
-  /* FONDO ANIMADO */
-  .bg-grid {
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
-    z-index: 0;
-  }
+/* NAVBAR */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 40px;
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: fadeUp 0.7s ease forwards 0s;
+}
 
-  .bg-orbs {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    overflow: hidden;
-  }
-  .orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.15;
-    animation: float 12s ease-in-out infinite;
-  }
-  .orb-1 { width: 500px; height: 500px; background: var(--morado); top: -100px; left: -100px; animation-delay: 0s; }
-  .orb-2 { width: 400px; height: 400px; background: var(--neon); bottom: -100px; right: -100px; animation-delay: -4s; }
-  .orb-3 { width: 300px; height: 300px; background: var(--morado-claro); top: 50%; left: 50%; animation-delay: -8s; }
+nav a {
+  color: #D7E2EA;
+  text-decoration: none;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: clamp(0.8rem, 1.2vw, 1.4rem);
+  transition: opacity 0.2s;
+}
+nav a:hover { opacity: 0.7; }
 
-  @keyframes float {
-    0%, 100% { transform: translate(0, 0); }
-    33% { transform: translate(30px, -30px); }
-    66% { transform: translate(-20px, 20px); }
-  }
+/* HERO HEADING */
+.hero-h1-wrap {
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(40px);
+  animation: fadeUp 0.7s ease forwards 0.15s;
+}
 
-  /* CONTENIDO */
-  .wrapper { position: relative; z-index: 1; }
+.hero-h1 {
+  font-size: clamp(14vw, 17.5vw, 17.5vw);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  white-space: nowrap;
+  width: 100%;
+  margin-top: clamp(8px, -5px, -5px);
+}
 
-  /* NAV */
-  nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 24px 60px;
-    border-bottom: 1px solid rgba(0,245,255,0.1);
-    backdrop-filter: blur(10px);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .logo {
-    font-family: 'Orbitron', monospace;
-    font-size: 1.2rem;
-    font-weight: 900;
-    color: var(--neon);
-    text-shadow: var(--glow-neon);
-    letter-spacing: 2px;
-  }
-  .logo span { color: var(--morado-claro); }
-  nav a {
-    color: var(--gris);
-    text-decoration: none;
-    font-size: 0.85rem;
-    letter-spacing: 1px;
-    transition: color 0.3s;
-  }
-  nav a:hover { color: var(--neon); }
-  .nav-links { display: flex; gap: 40px; }
-  .nav-cta {
-    background: transparent;
-    border: 1px solid var(--neon);
-    color: var(--neon) !important;
-    padding: 10px 24px;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    letter-spacing: 1px;
-    transition: all 0.3s !important;
-    box-shadow: 0 0 10px rgba(0,245,255,0.2);
-  }
-  .nav-cta:hover {
-    background: var(--neon) !important;
-    color: var(--negro) !important;
-    box-shadow: var(--glow-neon) !important;
-  }
+/* BOTTOM BAR */
+.hero-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 40px 28px;
+  flex: 1;
+  position: relative;
+  z-index: 2;
+}
 
-  /* HERO */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 80px 40px;
-    position: relative;
-  }
+.hero-tagline {
+  color: #D7E2EA;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.4;
+  font-size: clamp(0.75rem, 1.4vw, 1.5rem);
+  max-width: 260px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.7s ease forwards 0.35s;
+}
 
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    border: 1px solid rgba(0,245,255,0.3);
-    background: rgba(0,245,255,0.05);
-    padding: 8px 20px;
-    border-radius: 100px;
-    font-size: 0.75rem;
-    color: var(--neon);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 40px;
-    animation: fadeUp 0.8s ease both;
-  }
-  .badge::before {
-    content: '';
-    width: 6px; height: 6px;
-    background: var(--neon);
-    border-radius: 50%;
-    box-shadow: var(--glow-neon);
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+/* CONTACT BUTTON */
+.contact-btn {
+  background: linear-gradient(123deg, #18011F 7%, #B600A8 37%, #7621B0 72%, #BE4C00 100%);
+  box-shadow: 0px 4px 4px rgba(181,1,167,0.25), inset 4px 4px 12px #7721B1;
+  outline: 2px solid white;
+  outline-offset: -3px;
+  color: white;
+  font-family: 'Kanit', sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: clamp(0.75rem, 1vw, 1rem);
+  padding: 12px 32px;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  opacity: 0;
+  animation: fadeUp2 0.7s ease forwards 0.5s;
+  text-decoration: none;
+  display: inline-block;
+}
+.contact-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 8px 20px rgba(181,1,167,0.4), inset 4px 4px 12px #7721B1;
+}
 
-  .hero-title {
-    font-family: 'Orbitron', monospace;
-    font-size: clamp(2.5rem, 7vw, 5.5rem);
-    font-weight: 900;
-    line-height: 1.05;
-    margin-bottom: 30px;
-    animation: fadeUp 0.8s ease 0.1s both;
-  }
-  .hero-title .line-1 { color: var(--blanco); display: block; }
-  .hero-title .line-2 {
-    display: block;
-    background: linear-gradient(135deg, var(--morado-claro), var(--neon));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+/* HERO PORTRAIT */
+.hero-portrait {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  z-index: 10;
+  width: clamp(260px, 30vw, 500px);
+  opacity: 0;
+  animation: fadeUp 0.7s ease forwards 0.6s;
+  pointer-events: none;
+}
 
-  .hero-sub {
-    font-size: 1.1rem;
-    color: var(--gris);
-    max-width: 600px;
-    line-height: 1.8;
-    margin-bottom: 50px;
-    font-weight: 300;
-    animation: fadeUp 0.8s ease 0.2s both;
-  }
+.hero-portrait img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
 
-  .hero-btns {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    justify-content: center;
-    animation: fadeUp 0.8s ease 0.3s both;
-  }
+/* ── MARQUEE ── */
+#marquee {
+  background: #0C0C0C;
+  padding: clamp(80px, 10vw, 160px) 0 40px;
+  overflow: hidden;
+}
 
-  .btn-primary {
-    background: linear-gradient(135deg, var(--morado), var(--neon-suave));
-    color: var(--negro);
-    border: none;
-    padding: 16px 40px;
-    border-radius: 6px;
-    font-family: 'Orbitron', monospace;
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    cursor: none;
-    transition: all 0.3s;
-    box-shadow: 0 0 40px rgba(168,85,247,0.4);
-  }
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 60px rgba(0,245,255,0.5);
-  }
+.marquee-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+  will-change: transform;
+}
 
-  .btn-secondary {
-    background: transparent;
-    color: var(--blanco);
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 16px 40px;
-    border-radius: 6px;
-    font-family: 'Syne', sans-serif;
-    font-size: 0.9rem;
-    cursor: none;
-    transition: all 0.3s;
-  }
-  .btn-secondary:hover {
-    border-color: var(--morado-claro);
-    color: var(--morado-claro);
-  }
+.marquee-tile {
+  flex-shrink: 0;
+  width: 420px;
+  height: 270px;
+  border-radius: 16px;
+  overflow: hidden;
+}
 
-  /* STATS */
-  .stats {
-    display: flex;
-    justify-content: center;
-    gap: 60px;
-    flex-wrap: wrap;
-    margin-top: 80px;
-    padding: 40px;
-    border-top: 1px solid rgba(255,255,255,0.05);
-    animation: fadeUp 0.8s ease 0.4s both;
-  }
-  .stat { text-align: center; }
-  .stat-num {
-    font-family: 'Orbitron', monospace;
-    font-size: 2.5rem;
-    font-weight: 900;
-    background: linear-gradient(135deg, var(--morado-claro), var(--neon));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    display: block;
-  }
-  .stat-label { font-size: 0.8rem; color: var(--gris); letter-spacing: 1px; margin-top: 4px; }
+.marquee-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 
-  /* PROBLEMA */
-  .section { padding: 100px 60px; max-width: 1200px; margin: 0 auto; }
+/* ── ABOUT ── */
+#about {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  position: relative;
+  overflow: hidden;
+}
 
-  .section-tag {
-    font-size: 0.7rem;
-    color: var(--neon);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-    display: block;
-  }
+.about-deco {
+  position: absolute;
+  pointer-events: none;
+}
 
-  .section-title {
-    font-family: 'Orbitron', monospace;
-    font-size: clamp(1.8rem, 4vw, 3rem);
-    font-weight: 700;
-    margin-bottom: 20px;
-    line-height: 1.2;
-  }
+.about-deco img { width: 100%; height: auto; display: block; }
 
-  .pain-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
-    margin-top: 50px;
-  }
+.about-tl { top: 4%; left: 4%; width: clamp(80px, 12vw, 210px); }
+.about-bl { bottom: 8%; left: 10%; width: clamp(70px, 10vw, 180px); }
+.about-tr { top: 4%; right: 4%; width: clamp(80px, 12vw, 210px); }
+.about-br { bottom: 8%; right: 10%; width: clamp(90px, 13vw, 220px); }
 
-  .pain-card {
-    border: 1px solid rgba(255,255,255,0.06);
-    background: rgba(255,255,255,0.02);
-    padding: 32px;
-    border-radius: 12px;
-    transition: all 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
-  .pain-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(123,47,190,0.05), transparent);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .pain-card:hover { border-color: rgba(168,85,247,0.3); transform: translateY(-4px); }
-  .pain-card:hover::before { opacity: 1; }
+.about-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(40px, 5vw, 64px);
+  max-width: 700px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
 
-  .pain-icon { font-size: 2rem; margin-bottom: 16px; }
-  .pain-title { font-size: 1rem; font-weight: 600; margin-bottom: 10px; color: var(--blanco); }
-  .pain-text { font-size: 0.875rem; color: var(--gris); line-height: 1.7; }
+.about-title {
+  font-size: clamp(3rem, 12vw, 160px);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
 
-  /* QUÉ INCLUYE */
-  .incluye-section {
-    background: rgba(123,47,190,0.05);
-    border-top: 1px solid rgba(168,85,247,0.1);
-    border-bottom: 1px solid rgba(168,85,247,0.1);
-    padding: 100px 60px;
-  }
-  .incluye-inner { max-width: 1200px; margin: 0 auto; }
+.about-text {
+  color: #D7E2EA;
+  font-weight: 500;
+  line-height: 1.7;
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  max-width: 560px;
+}
 
-  .incluye-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: center;
-    margin-top: 60px;
-  }
+/* Animated text chars */
+.char {
+  display: inline;
+  position: relative;
+}
 
-  .feature-list { display: flex; flex-direction: column; gap: 24px; }
+/* ── SERVICES ── */
+#services {
+  background: #FFFFFF;
+  border-radius: 60px 60px 0 0;
+  padding: clamp(60px, 8vw, 128px) clamp(20px, 4vw, 40px);
+}
 
-  .feature-item {
-    display: flex;
-    gap: 20px;
-    align-items: flex-start;
-    padding: 24px;
-    border: 1px solid rgba(0,245,255,0.08);
-    border-radius: 10px;
-    background: rgba(0,245,255,0.02);
-    transition: all 0.3s;
-  }
-  .feature-item:hover {
-    border-color: rgba(0,245,255,0.25);
-    background: rgba(0,245,255,0.05);
-    transform: translateX(6px);
-  }
+.services-title {
+  font-size: clamp(3rem, 12vw, 160px);
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #0C0C0C;
+  text-align: center;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: clamp(64px, 8vw, 112px);
+}
 
-  .feature-icon {
-    width: 44px; height: 44px;
-    background: linear-gradient(135deg, var(--morado), var(--neon-suave));
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    flex-shrink: 0;
-  }
-  .feature-title { font-weight: 600; margin-bottom: 6px; font-size: 0.95rem; }
-  .feature-desc { font-size: 0.82rem; color: var(--gris); line-height: 1.6; }
+.services-list {
+  max-width: 900px;
+  margin: 0 auto;
+}
 
-  .guia-mockup {
-    background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(168,85,247,0.2);
-    border-radius: 16px;
-    padding: 40px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .guia-mockup::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: conic-gradient(from 0deg, transparent, rgba(168,85,247,0.1), transparent 30%);
-    animation: spin 8s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
+.service-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  padding: clamp(32px, 4vw, 48px) 0;
+  border-bottom: 1px solid rgba(12,12,12,0.15);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.service-item:first-child { border-top: 1px solid rgba(12,12,12,0.15); }
+.service-item.visible { opacity: 1; transform: translateY(0); }
 
-  .guia-inner {
-    position: relative;
-    z-index: 1;
-  }
-  .guia-price {
-    font-family: 'Orbitron', monospace;
-    font-size: 4rem;
-    font-weight: 900;
-    background: linear-gradient(135deg, var(--morado-claro), var(--neon));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    display: block;
-    margin: 20px 0;
-  }
-  .guia-title-box {
-    font-family: 'Orbitron', monospace;
-    font-size: 1rem;
-    color: var(--blanco);
-    margin-bottom: 10px;
-  }
-  .guia-sub { font-size: 0.8rem; color: var(--gris); margin-bottom: 30px; }
+.service-num {
+  font-size: clamp(3rem, 10vw, 140px);
+  font-weight: 900;
+  color: #0C0C0C;
+  line-height: 1;
+  flex-shrink: 0;
+  width: clamp(80px, 12vw, 180px);
+}
 
-  .checkmarks { list-style: none; text-align: left; margin-bottom: 30px; }
-  .checkmarks li {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 0;
-    font-size: 0.85rem;
-    color: var(--gris);
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-  }
-  .checkmarks li::before {
-    content: '✓';
-    color: var(--neon);
-    font-weight: 700;
-    flex-shrink: 0;
-  }
+.service-info { flex: 1; padding-top: 8px; }
 
-  /* TESTIMONIOS */
-  .testimonios { padding: 100px 60px; max-width: 1200px; margin: 0 auto; }
-  .testi-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 24px;
-    margin-top: 50px;
-  }
-  .testi-card {
-    background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 12px;
-    padding: 32px;
-    transition: all 0.3s;
-  }
-  .testi-card:hover { border-color: rgba(168,85,247,0.3); }
-  .stars { color: var(--neon); font-size: 0.9rem; margin-bottom: 16px; letter-spacing: 2px; }
-  .testi-text { font-size: 0.9rem; color: var(--gris); line-height: 1.7; margin-bottom: 24px; font-style: italic; }
-  .testi-author { display: flex; align-items: center; gap: 12px; }
-  .testi-avatar {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--morado), var(--neon-suave));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 0.9rem;
-    color: var(--negro);
-  }
-  .testi-name { font-size: 0.85rem; font-weight: 600; }
-  .testi-role { font-size: 0.75rem; color: var(--gris); }
+.service-name {
+  font-weight: 500;
+  text-transform: uppercase;
+  color: #0C0C0C;
+  font-size: clamp(1rem, 2.2vw, 2.1rem);
+  margin-bottom: 8px;
+}
 
-  /* CTA FINAL */
-  .cta-section {
-    text-align: center;
-    padding: 120px 60px;
-    position: relative;
-    overflow: hidden;
-  }
-  .cta-section::before {
-    content: '';
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(123,47,190,0.2) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .cta-section .section-title { margin-bottom: 20px; }
-  .cta-section p { color: var(--gris); margin-bottom: 40px; font-size: 1rem; }
+.service-desc {
+  font-weight: 300;
+  color: rgba(12,12,12,0.6);
+  font-size: clamp(0.85rem, 1.6vw, 1.25rem);
+  line-height: 1.6;
+  max-width: 600px;
+}
 
-  /* FOOTER */
-  footer {
-    border-top: 1px solid rgba(255,255,255,0.05);
-    padding: 40px 60px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  footer p { font-size: 0.8rem; color: var(--gris); }
+/* ── PROJECTS ── */
+#projects {
+  background: #0C0C0C;
+  border-radius: 60px 60px 0 0;
+  margin-top: -40px;
+  position: relative;
+  z-index: 10;
+  padding: clamp(60px, 8vw, 100px) clamp(20px, 4vw, 40px) 100px;
+}
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+.projects-title {
+  font-size: clamp(3rem, 12vw, 160px);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-align: center;
+  margin-bottom: clamp(40px, 6vw, 80px);
+}
 
-  /* RESPONSIVE */
-  @media (max-width: 768px) {
-    nav { padding: 20px 24px; }
-    .nav-links { display: none; }
-    .section { padding: 60px 24px; }
-    .incluye-section { padding: 60px 24px; }
-    .incluye-grid { grid-template-columns: 1fr; }
-    .testimonios { padding: 60px 24px; }
-    .cta-section { padding: 80px 24px; }
-    footer { padding: 30px 24px; flex-direction: column; text-align: center; }
-    .stats { gap: 30px; }
-  }
+.project-stack {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.project-container {
+  height: 85vh;
+  position: relative;
+}
+
+.project-card {
+  position: sticky;
+  border-radius: 50px;
+  border: 2px solid #D7E2EA;
+  background: #0C0C0C;
+  padding: clamp(16px, 2.5vw, 32px);
+  overflow: hidden;
+}
+
+.project-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.project-num {
+  font-size: clamp(2.5rem, 7vw, 100px);
+  font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(180deg, #646973 0%, #BBCCD7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.project-meta { flex: 1; }
+
+.project-category {
+  font-size: clamp(0.7rem, 1vw, 0.9rem);
+  color: rgba(215,226,234,0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 4px;
+}
+
+.project-name {
+  font-size: clamp(1rem, 2.5vw, 2rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.live-btn {
+  border-radius: 9999px;
+  border: 2px solid #D7E2EA;
+  color: #D7E2EA;
+  font-family: 'Kanit', sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: clamp(0.75rem, 1vw, 1rem);
+  padding: 10px 28px;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.live-btn:hover { background: rgba(215,226,234,0.1); }
+
+.project-images {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  gap: 12px;
+}
+
+.project-col-left {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.project-img {
+  width: 100%;
+  border-radius: 40px;
+  object-fit: cover;
+  display: block;
+}
+
+.project-img-sm { height: clamp(100px, 14vw, 200px); }
+.project-img-md { height: clamp(130px, 18vw, 280px); }
+.project-img-lg { height: 100%; min-height: clamp(240px, 35vw, 490px); }
+
+/* ── KEYFRAMES ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp2 {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── FOOTER ── */
+footer {
+  background: #0C0C0C;
+  border-top: 1px solid rgba(215,226,234,0.1);
+  padding: 40px;
+  text-align: center;
+  color: rgba(215,226,234,0.3);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  font-weight: 300;
+}
+
+/* Magnetic wrapper */
+.magnet-wrap { display: inline-block; }
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* Responsive */
+@media (max-width: 640px) {
+  nav { padding: 16px 20px; }
+  .hero-bottom { padding: 0 20px 20px; }
+  .project-images { grid-template-columns: 1fr; }
+  .project-col-right { display: none; }
+  .about-tl, .about-bl, .about-tr, .about-br { width: 60px; }
+}
 </style>
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-<div class="bg-grid"></div>
-<div class="bg-orbs">
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-</div>
-
-<div class="wrapper">
-
-  <!-- NAV -->
+<!-- ── HERO ── -->
+<section id="hero">
   <nav>
-    <div class="logo">AUTOMATIZA<span>IA</span></div>
-    <div class="nav-links">
-      <a href="#incluye">Qué incluye</a>
-      <a href="#testimonios">Testimonios</a>
-      <a href="#cta" class="nav-cta">OBTENER GUÍA</a>
-    </div>
+    <a href="#about">Acerca</a>
+    <a href="#services">Precio</a>
+    <a href="#projects">Proyectos</a>
+    <a href="#contact">Contacto</a>
   </nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="badge">🤖 Agentes de IA para tu negocio</div>
-    <h1 class="hero-title">
-      <span class="line-1">Tu Agencia en</span>
-      <span class="line-2">Piloto Automático</span>
-    </h1>
-    <p class="hero-sub">
-      Aprende a implementar agentes de IA que envían correos, hablan con clientes,
-      crean publicidad y gestionan tu negocio — las 24 horas, sin que tú levantes un dedo.
+  <div class="hero-h1-wrap">
+    <h1 class="hero-h1 hero-heading">Hi, I'm NEO</h1>
+  </div>
+
+  <div class="hero-bottom">
+    <p class="hero-tagline">Tu asistente personal impulsado por inteligencia artificial avanzada</p>
+    <a href="#contact" class="contact-btn">Contáctanos</a>
+  </div>
+
+  <!-- Portrait con efecto magnético -->
+  <div class="hero-portrait magnet-wrap" id="magnetPortrait">
+    <img src="https://d276s3zg8h21b2.cloudfront.net/user_3EF2JjdxBRcuGWqxxByh8ikLqsu/0a07ec82-ea7a-4c35-b4a5-c31d9d723be3.png"
+         alt="NEO JARVIS"
+         onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22600%22><rect fill=%22%230a1628%22 width=%22400%22 height=%22600%22/><text x=%22200%22 y=%22300%22 fill=%22%2300f5ff%22 text-anchor=%22middle%22 font-size=%2240%22>NEO</text></svg>'" />
+  </div>
+</section>
+
+<!-- ── MARQUEE ── -->
+<section id="marquee">
+  <div class="marquee-row" id="row1"></div>
+  <div class="marquee-row" id="row2"></div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <!-- Decorative corners -->
+  <div class="about-deco about-tl reveal" style="transition-delay:0.1s">
+    <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/moon_icon.11395d36.png" alt="">
+  </div>
+  <div class="about-deco about-bl reveal" style="transition-delay:0.25s">
+    <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/p59_1.4659672e.png" alt="">
+  </div>
+  <div class="about-deco about-tr reveal" style="transition-delay:0.15s">
+    <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/lego_icon-1.703bb594.png" alt="">
+  </div>
+  <div class="about-deco about-br reveal" style="transition-delay:0.3s">
+    <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/Group_134-1.2e04f3ce.png" alt="">
+  </div>
+
+  <div class="about-content">
+    <h2 class="about-title hero-heading reveal">Sobre NEO</h2>
+    <p class="about-text" id="animatedText">
+      Con tecnología de inteligencia artificial de última generación, NEO JARVIS te conoce, aprende de ti y trabaja contigo cada día. Te da los buenos días, controla tu música, genera contenido viral, busca en internet y mucho más. Tu asistente personal definitivo.
     </p>
-    <div class="hero-btns">
-      <button class="btn-primary" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
-        QUIERO LA GUÍA AHORA
-      </button>
-      <button class="btn-secondary" onclick="document.getElementById('incluye').scrollIntoView({behavior:'smooth'})">
-        Ver qué incluye →
-      </button>
-    </div>
-    <div class="stats">
-      <div class="stat">
-        <span class="stat-num">90%</span>
-        <span class="stat-label">Tareas automatizadas</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num">24/7</span>
-        <span class="stat-label">Agentes activos</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num">3x</span>
-        <span class="stat-label">Más clientes atendidos</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num">0</span>
-        <span class="stat-label">Código requerido</span>
-      </div>
-    </div>
-  </section>
+    <a href="#contact" class="contact-btn" style="opacity:0; animation: fadeUp2 0.7s ease forwards 0.4s;">Contáctanos</a>
+  </div>
+</section>
 
-  <!-- PROBLEMA -->
-  <div class="section">
-    <span class="section-tag">El problema</span>
-    <h2 class="section-title">¿Te suena familiar?</h2>
-    <p style="color: var(--gris); max-width: 600px; line-height: 1.8;">
-      La mayoría de agencias y negocios pierden horas en tareas repetitivas que una IA podría hacer en segundos.
-    </p>
-    <div class="pain-grid">
-      <div class="pain-card">
-        <div class="pain-icon">📧</div>
-        <div class="pain-title">Respondiendo correos todo el día</div>
-        <div class="pain-text">Pierdes horas respondiendo los mismos correos una y otra vez en lugar de enfocarte en crecer.</div>
+<!-- ── SERVICES ── -->
+<section id="services">
+  <h2 class="services-title">Servicios</h2>
+  <div class="services-list">
+    <div class="service-item">
+      <div class="service-num">01</div>
+      <div class="service-info">
+        <div class="service-name">Asistente Personal IA</div>
+        <div class="service-desc">NEO JARVIS te conoce, recuerda tu historia y aprende de ti cada día. Buenos días automáticos con clima, noticias y recordatorios personalizados.</div>
       </div>
-      <div class="pain-card">
-        <div class="pain-icon">💬</div>
-        <div class="pain-title">Clientes sin atender</div>
-        <div class="pain-text">Cuando estás dormido o en una reunión, tus clientes se van con la competencia que sí responde.</div>
+    </div>
+    <div class="service-item">
+      <div class="service-num">02</div>
+      <div class="service-info">
+        <div class="service-name">Generación de Contenido</div>
+        <div class="service-desc">Sistema NEO que crea scripts virales, ideas y videos automáticos para tus redes sociales. Tu equipo de producción digital trabajando 24/7.</div>
       </div>
-      <div class="pain-card">
-        <div class="pain-icon">📢</div>
-        <div class="pain-title">Publicidad manual y cara</div>
-        <div class="pain-text">Crear y gestionar anuncios consume tiempo y dinero que podrías invertir en lo que realmente importa.</div>
+    </div>
+    <div class="service-item">
+      <div class="service-num">03</div>
+      <div class="service-info">
+        <div class="service-name">Automatización Inteligente</div>
+        <div class="service-desc">Automatiza tareas repetitivas, gestiona recordatorios, controla aplicaciones y conecta tus herramientas favoritas con comandos de voz.</div>
       </div>
-      <div class="pain-card">
-        <div class="pain-icon">😩</div>
-        <div class="pain-title">Tú eres el cuello de botella</div>
-        <div class="pain-text">Todo depende de ti. Si te enfermas o descansas, el negocio se detiene. Eso no es libertad.</div>
+    </div>
+    <div class="service-item">
+      <div class="service-num">04</div>
+      <div class="service-info">
+        <div class="service-name">Visión por Cámara</div>
+        <div class="service-desc">NEO te ve, detecta tu estado de ánimo y describe tu entorno. Tecnología de visión artificial integrada en tu asistente personal.</div>
+      </div>
+    </div>
+    <div class="service-item">
+      <div class="service-num">05</div>
+      <div class="service-info">
+        <div class="service-name">Integración Total</div>
+        <div class="service-desc">Conecta con Spotify, Telegram, Gmail, Google Calendar y más. NEO es el centro de control de toda tu vida digital desde un solo lugar.</div>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- QUÉ INCLUYE -->
-  <div class="incluye-section" id="incluye">
-    <div class="incluye-inner">
-      <span class="section-tag">La solución</span>
-      <h2 class="section-title">Todo lo que necesitas para<br>automatizar tu agencia</h2>
-      <div class="incluye-grid">
-        <div class="feature-list">
-          <div class="feature-item">
-            <div class="feature-icon">✉️</div>
-            <div>
-              <div class="feature-title">Agente de Email Automático</div>
-              <div class="feature-desc">Configura un agente que responde, filtra y hace seguimiento de correos sin que toques el teclado.</div>
-            </div>
+<!-- ── PROJECTS ── -->
+<section id="projects">
+  <h2 class="projects-title hero-heading">Proyectos</h2>
+
+  <div class="project-stack">
+    <!-- Card 1 -->
+    <div class="project-container">
+      <div class="project-card" style="top: 96px;">
+        <div class="project-top">
+          <div class="project-num">01</div>
+          <div class="project-meta">
+            <div class="project-category">Cliente</div>
+            <div class="project-name">La Granjita Love</div>
           </div>
-          <div class="feature-item">
-            <div class="feature-icon">🤖</div>
-            <div>
-              <div class="feature-title">Chatbot de Ventas 24/7</div>
-              <div class="feature-desc">Un agente que habla con tus clientes, resuelve dudas y cierra ventas mientras tú duermes.</div>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon">📣</div>
-            <div>
-              <div class="feature-title">Publicidad con IA</div>
-              <div class="feature-desc">Crea, optimiza y publica anuncios automáticamente en Meta, Google y más plataformas.</div>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon">📊</div>
-            <div>
-              <div class="feature-title">Reportes y Análisis Automáticos</div>
-              <div class="feature-desc">Recibe resúmenes diarios de tu negocio sin revisar dashboards ni hacer cálculos manuales.</div>
-            </div>
-          </div>
+          <button class="live-btn">Ver Canal</button>
         </div>
-
-        <div class="guia-mockup" id="cta">
-          <div class="guia-inner">
-            <div class="guia-title-box">🚀 GUÍA COMPLETA</div>
-            <span class="guia-price">$97</span>
-            <p class="guia-sub">Acceso inmediato · Actualización incluida</p>
-            <ul class="checkmarks">
-              <li>Guía paso a paso en PDF + Video</li>
-              <li>Plantillas de prompts listas para usar</li>
-              <li>Configuración de 5 agentes de IA</li>
-              <li>Flujos de automatización en n8n y Make</li>
-              <li>Soporte por 30 días vía WhatsApp</li>
-              <li>Actualizaciones de por vida</li>
-            </ul>
-            <button class="btn-primary" style="width:100%; font-size:0.9rem; padding:18px;">
-              OBTENER ACCESO AHORA →
-            </button>
-            <p style="font-size:0.75rem; color:var(--gris); margin-top:16px;">
-              ✓ Pago seguro &nbsp;·&nbsp; ✓ Garantía 7 días &nbsp;·&nbsp; ✓ Acceso inmediato
-            </p>
+        <div class="project-images">
+          <div class="project-col-left">
+            <img class="project-img project-img-sm" src="https://motionsites.ai/assets/hero-space-voyage-preview-eECLH3Yc.gif" alt="Proyecto 1a" loading="lazy">
+            <img class="project-img project-img-md" src="https://motionsites.ai/assets/hero-codenest-preview-Cgppc2qV.gif" alt="Proyecto 1b" loading="lazy">
+          </div>
+          <div class="project-col-right">
+            <img class="project-img project-img-lg" src="https://motionsites.ai/assets/hero-stellar-ai-v2-preview-DjvxjG3C.gif" alt="Proyecto 1c" loading="lazy">
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- TESTIMONIOS -->
-  <div class="testimonios" id="testimonios">
-    <span class="section-tag">Resultados reales</span>
-    <h2 class="section-title">Lo que dicen quienes<br>ya automatizaron</h2>
-    <div class="testi-grid">
-      <div class="testi-card">
-        <div class="stars">★★★★★</div>
-        <p class="testi-text">"En 2 semanas tenía mi agente de email funcionando. Ahora paso 3 horas menos al día respondiendo correos y mis ventas subieron un 40%."</p>
-        <div class="testi-author">
-          <div class="testi-avatar">MR</div>
-          <div>
-            <div class="testi-name">Miguel Rodríguez</div>
-            <div class="testi-role">Agencia de Marketing Digital</div>
+    <!-- Card 2 -->
+    <div class="project-container">
+      <div class="project-card" style="top: 124px;">
+        <div class="project-top">
+          <div class="project-num">02</div>
+          <div class="project-meta">
+            <div class="project-category">Personal</div>
+            <div class="project-name">JARVIS PRO Dashboard</div>
+          </div>
+          <button class="live-btn">Ver Demo</button>
+        </div>
+        <div class="project-images">
+          <div class="project-col-left">
+            <img class="project-img project-img-sm" src="https://motionsites.ai/assets/hero-vitara-preview-Cjz2QYyU.gif" alt="Proyecto 2a" loading="lazy">
+            <img class="project-img project-img-md" src="https://motionsites.ai/assets/hero-terra-preview-BFjrCr7T.gif" alt="Proyecto 2b" loading="lazy">
+          </div>
+          <div class="project-col-right">
+            <img class="project-img project-img-lg" src="https://motionsites.ai/assets/hero-aethera-preview-DknSlcTa.gif" alt="Proyecto 2c" loading="lazy">
           </div>
         </div>
       </div>
-      <div class="testi-card">
-        <div class="stars">★★★★★</div>
-        <p class="testi-text">"Pensé que necesitaba saber programar. La guía es tan clara que en un fin de semana tenía 3 agentes corriendo. Increíble."</p>
-        <div class="testi-author">
-          <div class="testi-avatar">SA</div>
-          <div>
-            <div class="testi-name">Sofia Alvarado</div>
-            <div class="testi-role">Consultora de Negocios</div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="project-container">
+      <div class="project-card" style="top: 152px;">
+        <div class="project-top">
+          <div class="project-num">03</div>
+          <div class="project-meta">
+            <div class="project-category">Cliente</div>
+            <div class="project-name">NEO Sistema de Videos</div>
           </div>
+          <button class="live-btn">Ver Proyecto</button>
         </div>
-      </div>
-      <div class="testi-card">
-        <div class="stars">★★★★★</div>
-        <p class="testi-text">"Mi chatbot cierra clientes a las 2am mientras duermo. Ya recuperé la inversión en la primera semana. Vale cada peso."</p>
-        <div class="testi-author">
-          <div class="testi-avatar">JL</div>
-          <div>
-            <div class="testi-name">Jorge López</div>
-            <div class="testi-role">Freelancer & Agencia</div>
+        <div class="project-images">
+          <div class="project-col-left">
+            <img class="project-img project-img-sm" src="https://motionsites.ai/assets/hero-nexora-preview-cx5HmUgo.gif" alt="Proyecto 3a" loading="lazy">
+            <img class="project-img project-img-md" src="https://motionsites.ai/assets/hero-planet-orbit-preview-DWAP8Z1P.gif" alt="Proyecto 3b" loading="lazy">
+          </div>
+          <div class="project-col-right">
+            <img class="project-img project-img-lg" src="https://motionsites.ai/assets/hero-luminex-preview-CxOP7ce6.gif" alt="Proyecto 3c" loading="lazy">
           </div>
         </div>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- CTA FINAL -->
-  <section class="cta-section">
-    <span class="section-tag">Último paso</span>
-    <h2 class="section-title">Tu negocio no puede<br>seguir esperando</h2>
-    <p>Cada día sin automatizar es dinero y tiempo perdido. Empieza hoy.</p>
-    <button class="btn-primary" style="font-size:1rem; padding:20px 60px;" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
-      AUTOMATIZAR MI NEGOCIO AHORA
-    </button>
-  </section>
+<!-- CONTACT -->
+<section id="contact" style="background:#0C0C0C; padding: 100px 40px; text-align:center;">
+  <h2 class="hero-heading" style="font-size:clamp(2rem,8vw,100px);font-weight:900;text-transform:uppercase;line-height:1;margin-bottom:24px;">¿Listo para NEO?</h2>
+  <p style="color:rgba(215,226,234,0.5);font-size:clamp(1rem,2vw,1.4rem);font-weight:300;margin-bottom:48px;max-width:500px;margin-left:auto;margin-right:auto;">Únete a miles de personas con su asistente personal de IA.</p>
+  <a href="mailto:hola@neojarvis.ai" class="contact-btn" style="font-size:1rem;padding:16px 48px;opacity:1;animation:none;">Contáctanos</a>
+</section>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="logo">AUTOMATIZA<span>IA</span></div>
-    <p>© 2026 AutomatizaIA · Todos los derechos reservados</p>
-    <p style="font-size:0.75rem;">Política de privacidad · Términos de uso</p>
-  </footer>
-
-</div>
+<footer>
+  © 2026 NEO JARVIS · Cancún, México · Tu Asistente Personal con IA
+</footer>
 
 <script>
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  let mx = 0, my = 0, rx = 0, ry = 0;
+// ── MARQUEE SETUP ──
+const gifs1 = [
+  'https://motionsites.ai/assets/hero-space-voyage-preview-eECLH3Yc.gif',
+  'https://motionsites.ai/assets/hero-codenest-preview-Cgppc2qV.gif',
+  'https://motionsites.ai/assets/hero-vex-ventures-preview-BczMFIiw.gif',
+  'https://motionsites.ai/assets/hero-stellar-ai-v2-preview-DjvxjG3C.gif',
+  'https://motionsites.ai/assets/hero-asme-preview-B_nGDnTP.gif',
+  'https://motionsites.ai/assets/hero-transform-data-preview-Cx5OU29N.gif',
+  'https://motionsites.ai/assets/hero-vitara-preview-Cjz2QYyU.gif',
+  'https://motionsites.ai/assets/hero-terra-preview-BFjrCr7T.gif',
+  'https://motionsites.ai/assets/hero-skyelite-preview-DHaZIgUv.gif',
+  'https://motionsites.ai/assets/hero-aethera-preview-DknSlcTa.gif',
+  'https://motionsites.ai/assets/hero-designpro-preview-D8c5_een.gif',
+];
 
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.left = mx - 6 + 'px';
-    cursor.style.top = my - 6 + 'px';
+const gifs2 = [
+  'https://motionsites.ai/assets/hero-stellar-ai-preview-D3HL6bw1.gif',
+  'https://motionsites.ai/assets/hero-xportfolio-preview-D4A8maiC.gif',
+  'https://motionsites.ai/assets/hero-orbit-web3-preview-BXt4OttD.gif',
+  'https://motionsites.ai/assets/hero-nexora-preview-cx5HmUgo.gif',
+  'https://motionsites.ai/assets/hero-evr-ventures-preview-DZxeVFEX.gif',
+  'https://motionsites.ai/assets/hero-planet-orbit-preview-DWAP8Z1P.gif',
+  'https://motionsites.ai/assets/hero-new-era-preview-CocuDUm9.gif',
+  'https://motionsites.ai/assets/hero-wealth-preview-B70idl_u.gif',
+  'https://motionsites.ai/assets/hero-luminex-preview-CxOP7ce6.gif',
+  'https://motionsites.ai/assets/hero-celestia-preview-0yO3jXO8.gif',
+];
+
+function buildRow(el, gifs) {
+  const tripled = [...gifs, ...gifs, ...gifs];
+  tripled.forEach(src => {
+    const tile = document.createElement('div');
+    tile.className = 'marquee-tile';
+    const img = document.createElement('img');
+    img.src = src;
+    img.loading = 'lazy';
+    img.alt = '';
+    tile.appendChild(img);
+    el.appendChild(tile);
   });
+}
 
-  function animRing() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    ring.style.left = rx - 18 + 'px';
-    ring.style.top = ry - 18 + 'px';
-    requestAnimationFrame(animRing);
+buildRow(document.getElementById('row1'), gifs1);
+buildRow(document.getElementById('row2'), gifs2);
+
+// ── MARQUEE SCROLL ──
+const marqueeSection = document.getElementById('marquee');
+const row1 = document.getElementById('row1');
+const row2 = document.getElementById('row2');
+
+window.addEventListener('scroll', () => {
+  const sectionTop = marqueeSection.getBoundingClientRect().top + window.scrollY;
+  const offset = (window.scrollY - sectionTop + window.innerHeight) * 0.3;
+  row1.style.transform = `translateX(${offset - 200}px)`;
+  row2.style.transform = `translateX(${-(offset - 200)}px)`;
+}, { passive: true });
+
+// ── SCROLL REVEAL ──
+const revealEls = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.1, rootMargin: '50px' });
+revealEls.forEach(el => revealObserver.observe(el));
+
+// ── SERVICES REVEAL ──
+const serviceItems = document.querySelectorAll('.service-item');
+const serviceObserver = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 100);
+    }
+  });
+}, { threshold: 0.1 });
+serviceItems.forEach(el => serviceObserver.observe(el));
+
+// ── MAGNETIC PORTRAIT ──
+const magnet = document.getElementById('magnetPortrait');
+let magnetActive = false;
+
+document.addEventListener('mousemove', (e) => {
+  const rect = magnet.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+  const dx = e.clientX - cx;
+  const dy = e.clientY - cy;
+  const dist = Math.sqrt(dx * dx + dy * dy);
+  const padding = 150;
+  const threshold = rect.width / 2 + padding;
+
+  if (dist < threshold) {
+    const strength = 3;
+    magnet.style.transition = 'transform 0.3s ease-out';
+    magnet.style.transform = `translateX(calc(-50% + ${dx / strength}px)) translateY(${dy / strength}px)`;
+    magnetActive = true;
+  } else if (magnetActive) {
+    magnet.style.transition = 'transform 0.6s ease-in-out';
+    magnet.style.transform = 'translateX(-50%)';
+    magnetActive = false;
   }
-  animRing();
+});
 
-  // Scroll reveal
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.animation = 'fadeUp 0.7s ease both';
-        e.target.style.opacity = '1';
-      }
-    });
-  }, { threshold: 0.1 });
+// ── ANIMATED ABOUT TEXT ──
+const textEl = document.getElementById('animatedText');
+const text = textEl.textContent.trim();
+textEl.innerHTML = '';
 
-  document.querySelectorAll('.pain-card, .feature-item, .testi-card').forEach(el => {
-    el.style.opacity = '0';
-    observer.observe(el);
+text.split('').forEach((char, i) => {
+  const span = document.createElement('span');
+  span.textContent = char === ' ' ? '\u00A0' : char;
+  span.style.opacity = '0.2';
+  span.style.transition = `opacity 0.3s ease ${i * 0.01}s`;
+  textEl.appendChild(span);
+});
+
+const textObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const chars = textEl.querySelectorAll('span');
+      chars.forEach((span, i) => {
+        setTimeout(() => { span.style.opacity = '1'; }, i * 15);
+      });
+    }
   });
+}, { threshold: 0.3 });
+
+textObserver.observe(textEl);
 </script>
 </body>
 </html>
