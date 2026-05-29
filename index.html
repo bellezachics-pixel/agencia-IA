@@ -540,12 +540,15 @@ footer {
   .service-num { font-size: clamp(2rem, 12vw, 4rem) !important; width: auto !important; }
   .service-name { font-size: clamp(0.9rem, 4vw, 1.2rem) !important; }
 
-  /* Demo */
+  /* Demo chat */
   .demo-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+  #demo > div { grid-template-columns: 1fr !important; gap: 24px !important; }
+  #demo div[style*="grid-template-columns"] { grid-template-columns: 1fr !important; gap: 24px !important; }
 
-  /* Planes - todos en columna */
+  /* Planes - mostrar los 3 en columna */
   .pricing-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
-  .pc.hot { transform: none !important; }
+  #precios div[style*="grid-template-columns"] { grid-template-columns: 1fr !important; gap: 12px !important; }
+  #precios .pc.hot { transform: none !important; }
 
   /* About */
   .about-content { padding: 0 16px; }
@@ -747,7 +750,7 @@ footer {
 
 <!-- ── DEMO ── -->
 <section id="demo" style="background:#0C0C0C; padding: clamp(80px,10vw,140px) clamp(20px,4vw,60px); border-top:1px solid rgba(215,226,234,0.06);">
-  <div style="display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; max-width:1200px; margin:0 auto;">
+  <div class="demo-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; max-width:1200px; margin:0 auto;">
     <div>
       <p style="font-family:'Share Tech Mono',monospace; font-size:11px; letter-spacing:4px; color:rgba(215,226,234,0.4); text-transform:uppercase; margin-bottom:20px;">// Demo en vivo</p>
       <h2 class="hero-heading" style="font-size:clamp(2.5rem,6vw,80px); font-weight:900; text-transform:uppercase; line-height:1; letter-spacing:-0.02em; margin-bottom:24px;">Así habla<br>NEO JARVIS<br>contigo</h2>
@@ -836,7 +839,7 @@ footer {
 <!-- ── PRECIOS ── -->
 <section id="precios" style="background:#0C0C0C; border-radius:60px 60px 0 0; margin-top:-40px; position:relative; z-index:10; padding:clamp(60px,8vw,120px) clamp(20px,4vw,60px);">
   <h2 class="hero-heading" style="font-family:'Kanit',sans-serif; font-size:clamp(3rem,12vw,160px); font-weight:900; text-transform:uppercase; line-height:1; letter-spacing:-0.02em; text-align:center; margin-bottom:clamp(40px,6vw,80px);">Planes</h2>
-  <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:2px; max-width:1000px; margin:0 auto; background:rgba(215,226,234,0.05);">
+  <div class="pricing-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:2px; max-width:1000px; margin:0 auto; background:rgba(215,226,234,0.05);">
     <!-- Básico -->
     <div style="background:#0C0C0C; padding:52px 40px; text-align:center;">
       <div style="font-family:'Kanit',sans-serif; font-size:12px; letter-spacing:3px; color:rgba(215,226,234,0.4); margin-bottom:28px; text-transform:uppercase; font-weight:500;">Básico</div>
