@@ -496,11 +496,44 @@ footer {
 
 /* Responsive */
 @media (max-width: 640px) {
-  nav { padding: 16px 20px; }
+  nav { 
+    padding: 16px 20px; 
+    gap: 10px;
+  }
+  nav a { font-size: 11px; letter-spacing: 1px; }
+  
   .hero-bottom { padding: 0 20px 20px; }
+  
+  .hero-portrait {
+    width: clamp(220px, 70vw, 340px) !important;
+  }
+
   .project-images { grid-template-columns: 1fr; }
   .project-col-right { display: none; }
-  .about-tl, .about-bl, .about-tr, .about-br { width: 60px; }
+  .about-tl, .about-bl, .about-tr, .about-br { width: 50px; }
+
+  .project-top { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .project-card { border-radius: 24px !important; }
+
+  .service-item { flex-direction: column; gap: 8px; }
+  .service-num { font-size: clamp(2rem, 15vw, 5rem) !important; width: auto !important; }
+
+  /* Demo chat en celular */
+  .demo-grid { grid-template-columns: 1fr !important; gap: 30px !important; }
+  
+  /* Pricing en celular */
+  .pricing-grid { grid-template-columns: 1fr !important; }
+
+  /* About section */
+  .about-content { padding: 0 10px; }
+
+  /* Marquee tiles más pequeños */
+  .marquee-tile { width: 240px !important; height: 160px !important; }
+}
+
+@media (max-width: 900px) {
+  .demo-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+  .pricing-grid { grid-template-columns: 1fr !important; }
 }
 </style>
 </head>
@@ -1014,7 +1047,30 @@ window.addEventListener('mousemove', (e) => {
   });
 });
 
-// ── STICKY SCROLL PROYECTOS ──
+// ── TOUCH EFFECT para celular ──
+magnet.addEventListener('touchstart', (e) => {
+  magnet.style.transition = 'transform 0.3s ease';
+  magnet.style.transform = 'translateX(-50%) scale(1.08) translateY(-10px)';
+}, { passive: true });
+
+magnet.addEventListener('touchend', () => {
+  magnet.style.transition = 'transform 0.6s ease';
+  magnet.style.transform = 'translateX(-50%) scale(1) translateY(0)';
+}, { passive: true });
+
+// En celular animación automática de flotación
+if (window.innerWidth < 640) {
+  let floatDir = 1;
+  let floatY = 0;
+  setInterval(() => {
+    floatY += 0.5 * floatDir;
+    if (floatY > 15 || floatY < -15) floatDir *= -1;
+    if (magnetReady) {
+      magnet.style.transition = 'transform 0.1s linear';
+      magnet.style.transform = `translateX(-50%) translateY(${floatY}px)`;
+    }
+  }, 30);
+}
 const cards = document.querySelectorAll('.project-card');
 const totalCards = cards.length;
 
