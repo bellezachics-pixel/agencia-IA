@@ -21,7 +21,7 @@ html, body {
   position: fixed;
   inset: 0;
   z-index: 0;
-  pointer-events: none;
+  pointer-events: none !important;
 }
 
 /* GRADIENT TEXT */
@@ -76,7 +76,6 @@ footer {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow-x: clip;
   position: relative;
 }
 
@@ -178,11 +177,17 @@ nav a:hover { opacity: 0.7; }
   left: 50%;
   transform: translateX(-50%);
   bottom: 0;
-  z-index: 10;
+  z-index: 20;
   width: clamp(260px, 30vw, 500px);
   opacity: 0;
-  animation: fadeUp 0.7s ease forwards 0.6s;
-  pointer-events: none;
+  animation: portraitIn 0.7s ease forwards 0.6s;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+@keyframes portraitIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(30px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0px); }
 }
 
 .hero-portrait img {
@@ -279,7 +284,7 @@ nav a:hover { opacity: 0.7; }
 
 /* ── SERVICES ── */
 #services {
-  background: #FFFFFF;
+  background: #111111;
   border-radius: 60px 60px 0 0;
   padding: clamp(60px, 8vw, 128px) clamp(20px, 4vw, 40px);
 }
@@ -288,7 +293,7 @@ nav a:hover { opacity: 0.7; }
   font-size: clamp(3rem, 12vw, 160px);
   font-weight: 900;
   text-transform: uppercase;
-  color: #0C0C0C;
+  color: #D7E2EA;
   text-align: center;
   line-height: 1;
   letter-spacing: -0.02em;
@@ -305,7 +310,7 @@ nav a:hover { opacity: 0.7; }
   align-items: flex-start;
   gap: 24px;
   padding: clamp(32px, 4vw, 48px) 0;
-  border-bottom: 1px solid rgba(12,12,12,0.15);
+  border-bottom: 1px solid rgba(0,245,255,0.1);
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.6s ease, transform 0.6s ease;
@@ -316,7 +321,7 @@ nav a:hover { opacity: 0.7; }
 .service-num {
   font-size: clamp(3rem, 10vw, 140px);
   font-weight: 900;
-  color: #0C0C0C;
+  color: #D7E2EA;
   line-height: 1;
   flex-shrink: 0;
   width: clamp(80px, 12vw, 180px);
@@ -327,14 +332,14 @@ nav a:hover { opacity: 0.7; }
 .service-name {
   font-weight: 500;
   text-transform: uppercase;
-  color: #0C0C0C;
+  color: #D7E2EA;
   font-size: clamp(1rem, 2.2vw, 2.1rem);
   margin-bottom: 8px;
 }
 
 .service-desc {
   font-weight: 300;
-  color: rgba(12,12,12,0.6);
+  color: rgba(215,226,234,0.5);
   font-size: clamp(0.85rem, 1.6vw, 1.25rem);
   line-height: 1.6;
   max-width: 600px;
@@ -373,10 +378,12 @@ nav a:hover { opacity: 0.7; }
 .project-card {
   position: sticky;
   border-radius: 50px;
-  border: 2px solid #D7E2EA;
+  border: 2px solid rgba(0,245,255,0.2);
   background: #0C0C0C;
   padding: clamp(16px, 2.5vw, 32px);
   overflow: hidden;
+  transition: transform 0.1s ease;
+  will-change: transform;
 }
 
 .project-top {
@@ -609,8 +616,8 @@ footer {
         <div class="project-top">
           <div class="project-num">01</div>
           <div class="project-meta">
-            <div class="project-category">Cliente</div>
-            <div class="project-name">La Granjita Love</div>
+            <div class="project-category">Sistema NEO</div>
+            <div class="project-name">Hace Videos Por Ti</div>
           </div>
           <button class="live-btn">Ver Canal</button>
         </div>
@@ -632,8 +639,8 @@ footer {
         <div class="project-top">
           <div class="project-num">02</div>
           <div class="project-meta">
-            <div class="project-category">Personal</div>
-            <div class="project-name">JARVIS PRO Dashboard</div>
+            <div class="project-category">Asistente</div>
+            <div class="project-name">NEO JARVIS 24/7</div>
           </div>
           <button class="live-btn">Ver Demo</button>
         </div>
@@ -655,8 +662,8 @@ footer {
         <div class="project-top">
           <div class="project-num">03</div>
           <div class="project-meta">
-            <div class="project-category">Cliente</div>
-            <div class="project-name">NEO Sistema de Videos</div>
+            <div class="project-category">Memoria IA</div>
+            <div class="project-name">Te Conoce y Aprende</div>
           </div>
           <button class="live-btn">Ver Proyecto</button>
         </div>
@@ -714,8 +721,8 @@ footer {
 </section>
 
 <!-- ── SERVICIOS ── -->
-<section id="servicios" style="background:#FFFFFF; border-radius:60px 60px 0 0; padding:clamp(60px,8vw,128px) clamp(20px,4vw,60px);">
-  <h2 style="font-family:'Kanit',sans-serif; font-size:clamp(3rem,12vw,160px); font-weight:900; text-transform:uppercase; color:#0C0C0C; text-align:center; line-height:1; letter-spacing:-0.02em; margin-bottom:clamp(60px,8vw,112px);">Funciones</h2>
+<section id="servicios" style="background:#111111; border-radius:60px 60px 0 0; padding:clamp(60px,8vw,128px) clamp(20px,4vw,60px);">
+  <h2 style="font-family:'Kanit',sans-serif; font-size:clamp(3rem,12vw,160px); font-weight:900; text-transform:uppercase; color:#D7E2EA; text-align:center; line-height:1; letter-spacing:-0.02em; margin-bottom:clamp(60px,8vw,112px);">Funciones</h2>
   <div style="max-width:900px; margin:0 auto;">
     <div class="service-item">
       <div class="service-num">01</div>
@@ -782,7 +789,7 @@ footer {
     </div>
     <!-- Pro -->
     <div style="background:rgba(215,226,234,0.03); padding:52px 40px; text-align:center; border:1px solid rgba(215,226,234,0.15); position:relative;">
-      <div style="position:absolute; top:-1px; left:50%; transform:translateX(-50%); background:#D7E2EA; color:#0C0C0C; font-family:'Kanit',sans-serif; font-size:9px; font-weight:700; letter-spacing:3px; padding:6px 20px;">MÁS POPULAR</div>
+      <div style="position:absolute; top:-1px; left:50%; transform:translateX(-50%); background:#00f5ff; color:#0C0C0C; font-family:'Kanit',sans-serif; font-size:9px; font-weight:700; letter-spacing:3px; padding:6px 20px;">MÁS POPULAR</div>
       <div style="font-family:'Kanit',sans-serif; font-size:12px; letter-spacing:3px; color:rgba(215,226,234,0.4); margin-bottom:28px; text-transform:uppercase; font-weight:500;">Pro</div>
       <div style="font-family:'Kanit',sans-serif; font-size:64px; font-weight:900; color:#D7E2EA; line-height:1;">$19</div>
       <div style="font-family:'Kanit',sans-serif; font-size:13px; color:rgba(215,226,234,0.25); margin:8px 0 40px; letter-spacing:2px; font-weight:300;">USD / MES</div>
@@ -966,28 +973,62 @@ serviceItems.forEach(el => serviceObserver.observe(el));
 // ── MAGNETIC PORTRAIT ──
 const magnet = document.getElementById('magnetPortrait');
 let magnetActive = false;
+let magnetReady = false;
+let rafId = null;
 
-document.addEventListener('mousemove', (e) => {
-  const rect = magnet.getBoundingClientRect();
-  const cx = rect.left + rect.width / 2;
-  const cy = rect.top + rect.height / 2;
-  const dx = e.clientX - cx;
-  const dy = e.clientY - cy;
-  const dist = Math.sqrt(dx * dx + dy * dy);
-  const padding = 150;
-  const threshold = rect.width / 2 + padding;
+// Esperar que termine la animación de entrada
+setTimeout(() => {
+  magnetReady = true;
+  // Quitar animation para que JS pueda controlar el transform
+  magnet.style.animation = 'none';
+  magnet.style.opacity = '1';
+  magnet.style.transform = 'translateX(-50%)';
+}, 1400);
 
-  if (dist < threshold) {
-    const strength = 3;
-    magnet.style.transition = 'transform 0.3s ease-out';
-    magnet.style.transform = `translateX(calc(-50% + ${dx / strength}px)) translateY(${dy / strength}px)`;
-    magnetActive = true;
-  } else if (magnetActive) {
-    magnet.style.transition = 'transform 0.6s ease-in-out';
-    magnet.style.transform = 'translateX(-50%)';
-    magnetActive = false;
-  }
+window.addEventListener('mousemove', (e) => {
+  if (!magnet || !magnetReady) return;
+  if (rafId) cancelAnimationFrame(rafId);
+  rafId = requestAnimationFrame(() => {
+    const rect = magnet.getBoundingClientRect();
+    if (rect.top > window.innerHeight || rect.bottom < 0) return;
+
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = e.clientX - cx;
+    const dy = e.clientY - cy;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    const maxDist = 600;
+
+    if (dist < maxDist) {
+      const factor = (1 - dist / maxDist) * 55;
+      const moveX = (dx / dist) * factor;
+      const moveY = (dy / dist) * factor;
+      magnet.style.transition = 'transform 0.15s ease-out';
+      magnet.style.transform = `translateX(calc(-50% + ${moveX}px)) translateY(${moveY}px)`;
+      magnetActive = true;
+    } else if (magnetActive) {
+      magnet.style.transition = 'transform 0.8s ease-in-out';
+      magnet.style.transform = 'translateX(-50%)';
+      magnetActive = false;
+    }
+  });
 });
+
+// ── STICKY SCROLL PROYECTOS ──
+const cards = document.querySelectorAll('.project-card');
+const totalCards = cards.length;
+
+window.addEventListener('scroll', () => {
+  cards.forEach((card, index) => {
+    const container = card.parentElement;
+    const rect = container.getBoundingClientRect();
+    const scrollProgress = -rect.top / (rect.height - window.innerHeight * 0.85);
+    const clampedProgress = Math.max(0, Math.min(1, scrollProgress));
+    const targetScale = 1 - (totalCards - 1 - index) * 0.04 * clampedProgress;
+    card.style.transform = `scale(${targetScale})`;
+    card.style.transformOrigin = 'top center';
+  });
+}, { passive: true });
 
 // ── ANIMATED ABOUT TEXT ──
 const textEl = document.getElementById('animatedText');
